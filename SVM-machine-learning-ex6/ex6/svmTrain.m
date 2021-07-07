@@ -1,7 +1,6 @@
 function [model] = svmTrain(X, Y, C, kernelFunction, ...
                             tol, max_passes)
-%SVMTRAIN Trains an SVM classifier using a simplified version of the SMO 
-%algorithm. 
+% SVMTRAIN Trains an SVM classifier using a simplified version of the SMO algorithm. 
 %   [model] = SVMTRAIN(X, Y, C, kernelFunction, tol, max_passes) trains an
 %   SVM classifier and returns trained model. X is the matrix of training 
 %   examples.  Each row is a training example, and the jth column holds the 
