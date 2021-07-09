@@ -26,38 +26,38 @@ clear ; close all; clc
 %  complete the code in processEmail.m to produce a word indices vector
 %  for a given email.
 
-fprintf('\nPreprocessing sample email (emailSample1.txt)\n');
+% fprintf('\nPreprocessing sample email (emailSample1.txt)\n');
 
-% Extract Features
-file_contents = readFile('emailSample1.txt');
-word_indices  = processEmail(file_contents);
+% % Extract Features
+% file_contents = readFile('emailSample1.txt');
+% word_indices = processEmail(file_contents);
 
-% Print Stats
-fprintf('Word Indices: \n');
-fprintf(' %d', word_indices);
-fprintf('\n\n');
+% % Print Stats
+% fprintf('Word Indices: \n');
+% fprintf(' %d', word_indices);
+% fprintf('\n\n');
 
-fprintf('Program paused. Press enter to continue.\n');
-pause;
+% fprintf('Program paused. Press enter to continue.\n');
+% pause;
 
 %% ==================== Part 2: Feature Extraction ====================
-%  Now, you will convert each email into a vector of features in R^n. 
+%  Now, you will convert each email into a vector of features in R^n.
 %  You should complete the code in emailFeatures.m to produce a feature
 %  vector for a given email.
 
-fprintf('\nExtracting features from sample email (emailSample1.txt)\n');
-
-% Extract Features
-file_contents = readFile('emailSample1.txt');
-word_indices  = processEmail(file_contents);
-features      = emailFeatures(word_indices);
-
-% Print Stats
-fprintf('Length of feature vector: %d\n', length(features));
-fprintf('Number of non-zero entries: %d\n', sum(features > 0));
-
-fprintf('Program paused. Press enter to continue.\n');
-pause;
+% fprintf('\nExtracting features from sample email (emailSample1.txt)\n');
+% 
+% % Extract Features
+% file_contents = readFile('emailSample1.txt');
+% word_indices = processEmail(file_contents);
+% features = emailFeatures(word_indices);
+% 
+% % Print Stats
+% fprintf('Length of feature vector: %d\n', length(features));
+% fprintf('Number of non-zero entries: %d\n', sum(features > 0));
+% 
+% fprintf('Program paused. Press enter to continue.\n');
+% pause;
 
 %% =========== Part 3: Train Linear SVM for Spam Classification ========
 %  In this section, you will train a linear classifier to determine if an
@@ -130,7 +130,7 @@ filename = 'spamSample1.txt';
 % Read and predict
 file_contents = readFile(filename);
 word_indices  = processEmail(file_contents);
-x             = emailFeatures(word_indices);
+x = emailFeatures(word_indices);
 p = svmPredict(model, x);
 
 fprintf('\nProcessed %s\n\nSpam Classification: %d\n', filename, p);

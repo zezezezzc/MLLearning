@@ -4,7 +4,7 @@ function x = emailFeatures(word_indices)
 %   x = EMAILFEATURES(word_indices) takes in a word_indices vector and 
 %   produces a feature vector from the word indices. 
 
-% Total number of words in the dictionary
+% Total number of words in the dictionary 词库
 n = 1899;
 
 % You need to return the following variables correctly.
@@ -46,16 +46,14 @@ x = zeros(n, 1);
 %
 %              x = [ 0 0 0 0 1 0 0 0 ... 0 0 0 0 1 ... 0 0 0 1 0 ..];
 %
-%
 
 
-
-
-
-
-
-
+for idx = word_indices
+	if x(idx)
+		continue;
+	else
+		x(idx) = 1;
+	end
 % =========================================================================
     
-
 end

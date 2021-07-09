@@ -75,7 +75,7 @@ end
 fprintf('\nTraining ...');
 dots = 12;
 while passes < max_passes,
-            
+
     num_changed_alphas = 0;
     for i = 1:m,
         

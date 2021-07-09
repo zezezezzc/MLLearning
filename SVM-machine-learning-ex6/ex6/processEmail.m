@@ -1,10 +1,8 @@
 function word_indices = processEmail(email_contents)
-%PROCESSEMAIL preprocesses a the body of an email and
-%returns a list of word_indices 
+%PROCESSEMAIL preprocesses a the body of an email and returns a list of word_indices
 %   word_indices = PROCESSEMAIL(email_contents) preprocesses 
 %   the body of an email and returns a list of indices of the 
 %   words contained in the email. 
-%
 
 % Load Vocabulary
 vocabList = getVocabList();
@@ -17,7 +15,6 @@ word_indices = [];
 % Find the Headers ( \n\n and remove )
 % Uncomment the following lines if you are working with raw emails with the
 % full headers
-
 % hdrstart = strfind(email_contents, ([char(10) char(10)]));
 % email_contents = email_contents(hdrstart(1):end);
 
@@ -27,7 +24,7 @@ email_contents = lower(email_contents);
 % Strip all HTML
 % Looks for any expression that starts with < and ends with > and replace
 % and does not have any < or > in the tag it with a space
-email_contents = regexprep(email_contents, '<[^<>]+>', ' ');
+email_contents = regexprep(email_contents, '<[^<>]+>', '');
 
 % Handle Numbers
 % Look for one or more characters between 0-9
@@ -35,8 +32,7 @@ email_contents = regexprep(email_contents, '[0-9]+', 'number');
 
 % Handle URLS
 % Look for strings starting with http:// or https://
-email_contents = regexprep(email_contents, ...
-                           '(http|https)://[^\s]*', 'httpaddr');
+email_contents = regexprep(email_contents, '(http|https)://[^\s]*', 'httpaddr');
 
 % Handle Email Addresses
 % Look for strings with @ in the middle
@@ -55,20 +51,22 @@ fprintf('\n==== Processed Email ====\n\n');
 l = 0;
 
 while ~isempty(email_contents)
-
     % Tokenize and also get rid of any punctuation
-    [str, email_contents] = ...
-       strtok(email_contents, ...
-              [' @$/#.-:&*+=[]?!(){},''">_<;%' char(10) char(13)]);
-   
+    [str, email_contents] = strtok(email_contents, ...
+                        [' @$/#.-:&*+=[]?!(){},''">_<;%' char(10) char(13)]); % char(10)的换行符、char(13)的回车键
+
     % Remove any non alphanumeric characters
+    % 用regexprep替换掉非单词的文本，[^a-zA-Z0-9]为正则表达式，表明以字母、数字之外的字符
     str = regexprep(str, '[^a-zA-Z0-9]', '');
 
     % Stem the word 
     % (the porterStemmer sometimes has issues, so we use a try catch block)
-    try str = porterStemmer(strtrim(str)); 
-    catch str = ''; continue;
-    end;
+    try
+        str = porterStemmer(strtrim(str));      % 英文分词算法
+    catch ME
+        str = '';
+        continue;
+    end
 
     % Skip the word if it is too short
     if length(str) < 1
@@ -95,16 +93,11 @@ while ~isempty(email_contents)
     % 
     % Note: You can use strcmp(str1, str2) to compare two strings (str1 and
     %       str2). It will return 1 only if the two strings are equivalent.
-    %
-
-
-
-
-
-
-
-
-
+    for idx = 1:length(vocabList)
+        if strcmp(vocabList{idx}, str)
+            word_indices = [word_indices, idx];
+        end
+    end
 
     % =============================================================
 
@@ -116,7 +109,6 @@ while ~isempty(email_contents)
     end
     fprintf('%s ', str);
     l = l + length(str) + 1;
-
 end
 
 % Print footer
