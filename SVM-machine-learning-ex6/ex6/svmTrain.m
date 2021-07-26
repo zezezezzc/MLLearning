@@ -74,7 +74,8 @@ end
 % Train
 fprintf('\nTraining ...');
 dots = 12;
-while passes < max_passes,
+
+while passes < max_passes
 
     num_changed_alphas = 0;
     for i = 1:m,
@@ -124,8 +125,8 @@ while passes < max_passes,
             alphas(j) = alphas(j) - (Y(j) * (E(i) - E(j))) / eta;
             
             % Clip
-            alphas(j) = min (H, alphas(j));
-            alphas(j) = max (L, alphas(j));
+            alphas(j) = min(H, alphas(j));
+            alphas(j) = max(L, alphas(j));
             
             % Check if change in alpha is significant
             if (abs(alphas(j) - alpha_j_old) < tol),

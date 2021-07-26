@@ -15,8 +15,7 @@ from sklearn.preprocessing import scale
 
 # We'll hack a bit with the t-SNE code in sklearn 0.15.2.
 from sklearn.metrics.pairwise import pairwise_distances
-from sklearn.manifold.t_sne import (_joint_probabilities,
-                                    _kl_divergence)
+from sklearn.manifold.t_sne import (_joint_probabilities, _kl_divergence)
 from sklearn.utils.extmath import _ravel
 # Random state.
 RS = 20150101
@@ -126,3 +125,26 @@ if __name__ == '__main__':
     plt.axis('off')
     plt.title("$p_{j|i}$ (variable $\sigma$)", fontdict={'fontsize': 16})
     plt.savefig('images/similarity-generated.png', dpi=120)
+
+
+    ## t-Distribution
+    npoints = 1000
+    plt.figure(figsize=(15, 4))
+    for i, D in enumerate((2, 5, 10)):
+        # Normally distributed points.
+        u = np.random.randn(npoints, D)
+        # Now on the sphere.
+        u /= norm(u, axis=1)[:, None]
+        # Uniform radius.
+        r = np.random.rand(npoints, 1)
+        # Uniformly within the ball.
+        points = u * r**(1./D)
+        # Plot.
+        ax = plt.subplot(1, 3, i+1)
+        ax.set_xlabel('Ball radius')
+        if i == 0:
+            ax.set_ylabel('Distance from origin')
+        ax.hist(norm(points, axis=1),
+                bins=np.linspace(0., 1., 50))
+        ax.set_title('D=%d' % D, loc='left')
+    plt.savefig('images/spheres-generated.png', dpi=100, bbox_inches='tight')
