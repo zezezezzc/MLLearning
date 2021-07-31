@@ -48,5 +48,3 @@ cov(B,1)
 
 % @PCA
 [U, S, V] = svd(covmatrix);
-
-% SVM
